@@ -10,7 +10,7 @@ export async function askQuestion(userId, question) {
 }
 
 export function subscribeToStream(onQuestion, onAnswer, onVis) {
-  const sse = new EventSource("http://localhost:3001/api/stream");
+  const sse = new EventSource(`${API_URL}/api/stream`);
 
   sse.addEventListener("question_created", (e) => {
     const data = JSON.parse(e.data);
