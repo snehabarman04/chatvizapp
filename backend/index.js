@@ -4,7 +4,7 @@ import cors from "cors";
 
 dotenv.config();
 const app = express();
-app.use(cors());
+app.use(cors("https://chat-and-visualization.netlify.app"));
 app.use(express.json());
 
 let questions = [];
@@ -76,6 +76,7 @@ Always output two parts:
 4. Give the JSON part without any additional formatting, markdown, or code block.
 5. Do not just give plain graphical visualisations. Use visualizations that are appropriate for the data and the question.
 6. The visualisation should be with shapes and diagrams and objects, not just charts.
+7. Keep the same format of 
 
 Question: ${question}`,
               },
