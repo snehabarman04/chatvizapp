@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "vega": "^6.2.0",
+    "vega-embed": "^7.0.2"
+  }
+}
