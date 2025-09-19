@@ -4,7 +4,9 @@ import cors from "cors";
 
 dotenv.config();
 const app = express();
-app.use(cors("https://chat-and-visualization.netlify.app"));
+app.use(cors({
+  origin: ["http://localhost:3000", "https://chat-and-visualization.netlify.app"]
+}));
 app.use(express.json());
 
 let questions = [];
