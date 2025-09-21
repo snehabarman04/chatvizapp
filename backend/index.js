@@ -5,7 +5,7 @@ import cors from "cors";
 dotenv.config();
 const app = express();
 app.use(cors({
-  origin: ["http://localhost:3000","http://localhost:3001","https://chatvizapp-by6z.vercel.app"]
+  origin: ["http://localhost:3000","http://localhost:3001","https://chatvizapp-nmqp.vercel.app"]
 }));
 app.use(express.json());
 
