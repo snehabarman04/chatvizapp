@@ -11,7 +11,6 @@ function App() {
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Scroll chat to bottom on new message or when loading changes
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -25,7 +24,6 @@ function App() {
       // answer_created_chat
       (a) => {
         setChat((prev) => {
-          // If last message is pending AI, replace it; otherwise append
           if (prev.length && prev[prev.length - 1].type === "answer" && prev[prev.length - 1].pending) {
             return [
               ...prev.slice(0, -1),
@@ -47,7 +45,7 @@ function App() {
   const handleAsk = async () => {
     if (!question.trim()) return;
     const q = question.trim();
-    setQuestion(""); // clear input immediately
+    setQuestion("");
 
     setChat((prev) => [
       ...prev,
@@ -99,7 +97,6 @@ function App() {
           <div className="panel-body chat-body">
             <div className="messages">
               {chat.map((msg, i) => {
-                // Show only typing bubble if this is a pending AI response
                 if (msg.type === "answer" && msg.pending) {
                   return (
                     <div key={i} className="message from-ai">
