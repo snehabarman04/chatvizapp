@@ -5,7 +5,7 @@ import cors from "cors";
 dotenv.config();
 const app = express();
 app.use(cors({
-  origin: ["http://localhost:3000","http://localhost:3001","https://remarkable-strudel-8936f5.netlify.app","https://chatvizapp-by6z.vercel.app"]
+  origin: ["http://localhost:3000","http://localhost:3001","https://chatvizapp-by6z.vercel.app"]
 }));
 app.use(express.json());
 
@@ -74,10 +74,14 @@ Also, output both:
 Always output two parts:
 1. A text explanation.
 2. A JSON visualization spec that is a valid Vega-Lite v5 spec.
-3. Do not explicitly mention the text explanation as the first point and Vega-Lite spec as your second point in your explanation.
-4. Give the JSON part without any additional formatting, markdown, or code block.
-5. Do not just give plain graphical visualisations. Use visualizations that are appropriate for the data and the question.
-6. The visualisation should be with shapes and diagrams and objects, not just charts.
+3. Every answer must include a visualisation spec, even if with simple shapes and figures.
+text
+4. If you are unable to generate a meaningful diagram, return a Vega-Lite spec that displays an informative message or a simple shape (such as a labeled text mark).
+5. If producing a diagram is not possible, or if the answer lends itself to an animation (like showing an orbit or process), return an animated Vega-Lite spec or a recognized Lottie JSON animation when appropriate.
+6. Do not explicitly mention the text explanation as the first point and Vega-Lite spec as your second point in your explanation.
+7. Give the JSON part without any additional formatting, markdown, or code block.
+8. Do not just give plain graphical visualisations. Use visualizations that are appropriate for the data and the question.
+9. The visualisation should be with shapes and diagrams and objects, not just charts.
 
 Question: ${question}`,
               },
@@ -92,13 +96,19 @@ Question: ${question}`,
     const raw = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
     let visualization = extractVegaLiteJSON(raw);
-    let explanation = raw;
-    const jsonBlockStart = raw.indexOf("```json");
-    if (jsonBlockStart !== -1) {
-    explanation = raw.slice(0, jsonBlockStart).trim();
-    } else if (visualization) {
-    const jsonStart = raw.indexOf("{");
-    if (jsonStart !== -1) explanation = raw.slice(0, jsonStart).trim();
+    if (!visualization) {
+      visualization = {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "description": "Default visualization when AI does not provide one.",
+        "mark": "text",
+        "encoding": {
+          "text": { "value": "No visualization available" },
+          "x": { "value": 100 },
+          "y": { "value": 100 }
+        },
+        "width": 300,
+        "height": 120
+      };
     }
 
     const answer = {
