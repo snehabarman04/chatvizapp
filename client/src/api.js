@@ -1,4 +1,4 @@
-const API_URL = process.env.API_URL || "http://localhost:3001";
+const API_URL = process.env.REACT_APP_API_URL
 
 export async function askQuestion(userId, question) {
   const res = await fetch(`${API_URL}/api/questions`, {
@@ -10,7 +10,7 @@ export async function askQuestion(userId, question) {
 }
 
 export function subscribeToStream(onQuestion, onAnswer, onVis) {
-  const sse = new EventSource(`${API_URL}/api/stream`);
+  const sse = new EventSource(API_URL+"/api/stream");
 
   sse.addEventListener("question_created", (e) => {
     const data = JSON.parse(e.data);

@@ -5,7 +5,7 @@ import cors from "cors";
 dotenv.config();
 const app = express();
 app.use(cors({
-  origin: ["http://localhost:3000", "https://chat-and-visualization.netlify.app"]
+  origin: ["http://localhost:3000","http://localhost:3001","https://remarkable-strudel-8936f5.netlify.app","https://chatvizapp-by6z.vercel.app"]
 }));
 app.use(express.json());
 
@@ -78,7 +78,6 @@ Always output two parts:
 4. Give the JSON part without any additional formatting, markdown, or code block.
 5. Do not just give plain graphical visualisations. Use visualizations that are appropriate for the data and the question.
 6. The visualisation should be with shapes and diagrams and objects, not just charts.
-7. Keep the same format of 
 
 Question: ${question}`,
               },
@@ -129,7 +128,12 @@ Question: ${question}`,
     res.status(500).json({ error: "Failed to generate explanation" });
   }
 });
-
+app.get('/',(req,res)=>{
+  res.send({
+    activeStatus:true,
+    error:false,
+  })
+})
 app.listen(3001, () => {
   console.log("Backend running at http://localhost:3001");
 });
